@@ -52,6 +52,7 @@ int checkIn(int currentGuestNo) {
     //variables
     char fName[150];
     char lName[150];
+    char BookingID[154]; //max surname = 150 and max num = 100, overall 154 max characters including null terminator
     int lengthOfStay;
     int adultsStaying;
     int childrenStaying;
@@ -246,6 +247,13 @@ int checkIn(int currentGuestNo) {
     for (int i = 0; i < 11; i++) {
         printf("%s", MAIN[i][currentGuestNo]);
     }
+
+    //BOOKING ID
+    srand(time(NULL));
+    int BookingIDRandom = rand() % 100;
+    sprintf(BookingID, "%s%d", lName, BookingIDRandom);
+    printf("\nYour Booking ID is: %s", BookingID);
+
     //CALCULATION (boardRate and roomRate)
 
     return 0;
