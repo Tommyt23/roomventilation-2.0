@@ -16,7 +16,7 @@ int checkOut();
 int isNameValid(char name[]);
 
 //global variables
-int MAIN[12][2] = {{0, 0}, {0,0}, {0,0}, {0,0},
+int MAIN[12][6] = {{0, 0}, {0,0}, {0,0}, {0,0},
                    {0,0},{0,0},{0,0},{0,0},
                    {0,0},{0,0},{0,0}, {0, 0}};  //empty 2Darray of 11x2
                    // [0] = BookingID, [1] = FirstName, [2] = Surname, [3] = AdultsStaying, [4] = ChildrenStaying,
@@ -30,6 +30,8 @@ int TABLES[6] = {0, 0, 0, 0, 0, 0}; //another normal array for table availabilit
                    // [0] = Endor19:00, [1] = Endor21:00, [2] = Naboo19:00, [3] = Naboo21:00
                    // [4] = Tattooine19:00, [5] = Tattooine21:00
                    // 0 = available, 1 = booked         all tables start available
+char FIRSTNAMES[6];
+char LASTNAMES[6];
 
 
 // main program called when code is ran
@@ -50,8 +52,10 @@ int main() {
 int checkIn(int currentGuestNo) {
     //        CHECK IN
     //variables
-    char fName[150];
+    char fNameInput[150];
+    char fName;
     char lName[150];
+    char BookingID[154]; //max surname = 150 and max num = 100, overall 154 max characters including null terminator
     int lengthOfStay;
     int adultsStaying;
     int childrenStaying;
@@ -68,11 +72,19 @@ int checkIn(int currentGuestNo) {
     //first name
     do {
         printf("\n\nPlease enter your first name: "); //input
-        scanf("%s", fName);
+        scanf("%s", fNameInput);
         fflush(stdin);
-    } while (isNameValid(fName) != 0);
-    int ASCIIfirstName = atoi(fName); //convert to ascii
-    MAIN[1][currentGuestNo] = ASCIIfirstName; // firstname stored
+        int length = 0;
+        for (int i = 0; fNameInput[i] != '\0'; i++) {
+            length++;
+        }
+        char fName[length];
+        for (int j = 0; j < length + 1; j++) {
+            fName[j] = fNameInput[j];
+        }
+    } while (isNameValid(fNameInput) != 0);
+    FIRSTNAMES[currentGuestNo] = fName;
+    printf("%s %s", FIRSTNAMES[currentGuestNo], fName);
 
     //last name
     do {
@@ -107,7 +119,7 @@ int checkIn(int currentGuestNo) {
     MAIN[11][currentGuestNo] = userAge;
 
     // adults staying
-    printf("\n\n\t NOTE: the Kashyyyk Hotel can only support 4 guests in one room");
+    printf("\n\nNOTE: the Kashyyyk Hotel can only support 4 guests in one room");
     do {
         do {
             printf("\n\nHow many guests are adults (over 16): ");
@@ -148,6 +160,8 @@ int checkIn(int currentGuestNo) {
                 //confirmation
                 if (childrenStaying == 1) {
                     printf("You are booking for 1 child, type '/' to proceed: ");
+                } else if (childrenStaying == 0) {
+                    printf("You are booking for no children, type '/' to proceed: ");
                 } else {
                     printf("You are booking for %d children, type '/' to proceed: ", childrenStaying); }
                 scanf("%c", &confirm);
@@ -223,12 +237,34 @@ int checkIn(int currentGuestNo) {
              confirm != '/'); //while lengthofstay is in range and user has confirmed
     MAIN[6][currentGuestNo] = lengthOfStay;
 
+    //giving choice of available rooms
+    do {
+        int roomChoice = 0;
+        char roomConfirm = 0;
+        for (int i = 0; i <= 6; i++) {
+            printf("%d", ROOMS[i]); //this is definitley wrong, need to change
+            printf("Please enter what room you would like to book\nRooms 1 or 2: £100\nRoom 3: £85\nRooms 4 or 5: £75\nRoom 6: £50");
+            scanf("%d", &roomChoice);
+            fflush(stdin);
+            printf("\nYou are booking room %d, please type '/' to confirm:");
+            scanf("%c", &roomConfirm);
+            fflush(stdin);
+            while (ROOMS[roomChoice] == 0 || roomChoice < 1 || roomChoice > 6 || roomConfirm == '/');
+            ROOMS[roomChoice] = 1;
+            if (roomChoice == 1) {
+                printf("\nThank you for your booking.");
+            } else
+                printf("\nInvalid booking, your room is either invalid or already booked.");
+
+        }
+    }
+
     //daily newspaper
 
     do {
         //also we do not need a second while loop as the do-while can handle looping
         // char newspaperChoice; //instead of a string we can use characters (easier to deal with)
-        printf("\n\nWould you like to opt for our daily newspaper, this service has a one-off charge of £5.50.");
+        printf("\n\nWould you like to opt for our daily newspaper, this service has a one-off charge of 5.50GBP.");
         printf("Enter 'Y' for yes and 'N' for no: ");
         scanf("%c", &newspaperChoice);
         fflush(stdin);
@@ -236,7 +272,7 @@ int checkIn(int currentGuestNo) {
         if (newspaperChoice == 'Y') {
             printf("Your newspapers will be delivered daily, thank you for choosing our service");
         } else if (newspaperChoice == 'N') {
-            printf("You will not be charged with newspapers, enjoy your stay");
+            printf("You will not be charged for daily newspapers, enjoy your stay");
         } else {
             printf("Invalid choice, try again");
         }
@@ -246,6 +282,13 @@ int checkIn(int currentGuestNo) {
     for (int i = 0; i < 11; i++) {
         printf("%s", MAIN[i][currentGuestNo]);
     }
+
+    //BOOKING ID
+    srand(time(NULL));
+    int BookingIDRandom = rand() % 100;
+    sprintf(BookingID, "%s%d", lName, BookingIDRandom);
+    printf("\nYour Booking ID is: %s", BookingID);
+
     //CALCULATION (boardRate and roomRate)
 
     return 0;
