@@ -242,7 +242,8 @@ int checkIn(int currentGuestNo) {
         int roomChoice = 0;
         char roomConfirm = 0;
         for (int i = 0; i <= 6; i++) {
-            printf("%d", ROOMS[i]); //this is definitley wrong, need to change
+            if (ROOMS[i] == 0) {      //printing what rooms are available
+                printf("\nRoom %d is available.", &i+1); } }
             printf("Please enter what room you would like to book\nRooms 1 or 2: £100\nRoom 3: £85\nRooms 4 or 5: £75\nRoom 6: £50");
             scanf("%d", &roomChoice);
             fflush(stdin);
@@ -256,7 +257,7 @@ int checkIn(int currentGuestNo) {
             } else
                 printf("\nInvalid booking, your room is either invalid or already booked.");
 
-        }
+
     }
 
     //daily newspaper
