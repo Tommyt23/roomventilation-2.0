@@ -6,14 +6,19 @@
 #include <string.h>
 #include <stdlib.h>
 #include <time.h>
+#include <stdbool.h>
 
 
 
 // declaring subroutines for later
+int mainMenu(int currentGuestNo);
 int checkIn(int currentGuestNo);
-int bookDinner();
-int checkOut();
+int bookDinner(int currentGuestNo);
+int checkOut(int currentGuestNo);
 int isNameValid(char name[]);
+
+//declaring variables
+bool mainMenuValid;
 
 //global variables
 int MAIN[12][6] = {{0, 0}, {0,0}, {0,0}, {0,0},
@@ -30,70 +35,146 @@ int TABLES[6] = {0, 0, 0, 0, 0, 0}; //another normal array for table availabilit
                    // [0] = Endor19:00, [1] = Endor21:00, [2] = Naboo19:00, [3] = Naboo21:00
                    // [4] = Tattooine19:00, [5] = Tattooine21:00
                    // 0 = available, 1 = booked         all tables start available
-char FIRSTNAMES[6];
-char LASTNAMES[6];
 
-
+bool hasQuit = false;
 // main program called when code is ran
 int main() {
     int currentGuestNo = -1; //keeps track of what column we read and write from in MAIN array
+    hasQuit = false;
+    mainMenuValid = true;
 
-    checkIn(currentGuestNo);
-
-
-
+    mainMenu(currentGuestNo);
 }
 
 
+int mainMenuChoice;
+bool mainMenuValid = true;
 
+int mainMenu(int currentGuestNo) {
+    printf("\n\n\n  WELCOME TO THE KASHYYYK HOTEL\n");
+    // colourful ribbon because why not \/
+    for (int i = 0; i < 33; i++) {
+        if (i % 3 == 0) {
+            printf("\033[0;31m"); printf("~"); //red text
+        } else if (i % 3 == 1) {
+            printf("\033[38;5;208m"); printf("~"); // orange text
+        } else {
+            printf("\033[93m"); printf("~"); //yellow text
+        }
+    }
+    printf("\033[0m\n"); //reset colour
 
+    //main menu
+    //hasquit is true if the user has returned to the main menu by quitting
+    printf("\n1) Check-In\t\t2) Book Table\t\t3) Check-Out\n");
+    do {
+        mainMenuValid = true; //set to false if their choice didn't make sense
+        printf("\nEnter choice: ");
+        scanf("%d", &mainMenuChoice);
+        fflush(stdin);
 
+        if (mainMenuChoice == 1) {
+            if (hasQuit) {
+                checkIn(currentGuestNo); // if player has quit, check-in with new guest number
+            } else {
+                if (currentGuestNo == -1) {
+                    checkIn(currentGuestNo);   //allow check-in if program first started
+                } else {
+                    printf("You have already checked-in, pick another option.");
+                    mainMenuValid = false;
+                }
+            }
+        }
+        else if (mainMenuChoice == 2) {
+            if (!hasQuit) {
+                if (currentGuestNo == -1) { //if program has just started
+                    printf("You haven't checked in yet, please Check-In and enter option 1.");
+                    mainMenuValid = false;
+                } else {
+                    bookDinner(currentGuestNo); //if player hasn't quit (has checked in) go ahead
+                }
+            } else {
+                printf("You haven't checked in yet, please Check-In and enter option 1.");
+                mainMenuValid = false;
+            }
+        }
+        else if (mainMenuChoice == 3) {
+            if (!hasQuit) {
+                if (currentGuestNo == -1) { //if program has just started
+                    printf("You haven't checked in yet, please Check-In and enter option 1.");
+                    mainMenuValid = false;
+                } else {
+                    checkOut(currentGuestNo); //if player hasn't quit (has checked in) you may check-out
+                }
+            } else {
+                printf("You haven't checked in yet, please Check-In and enter option 1.");
+                mainMenuValid = false;
+            }
+        }
+        else {
+            printf("Option typed is invalid, try again.");
+            mainMenuValid = false;
+        }
+    } while (mainMenuChoice < 1 || mainMenuChoice > 3 || !mainMenuValid);
+
+    //check in
+
+    return 0;
+}
+
+//variables for check-in
+char fName[150];
+char lName[150];
+char BookingID[154]; //max surname = 150 and max num = 100, overall 154 max characters including null terminator
+int lengthOfStay;
+int adultsStaying;
+int childrenStaying;
+int maxStaying;
+int userAge;
+char boardTypeChoice[3]; //0 for BB, 1 for HB, 2 for FB
+int roomChoice;
+char newspaperChoice;
 
 int checkIn(int currentGuestNo) {
     //        CHECK IN
     //variables
-    char fNameInput[150];
-    char fName;
-    char lName[150];
-    char BookingID[154]; //max surname = 150 and max num = 100, overall 154 max characters including null terminator
-    int lengthOfStay;
-    int adultsStaying;
-    int childrenStaying;
-    int maxStaying;
-    int userAge;
-    char boardTypeChoice[3]; //0 for BB, 1 for HB, 2 for FB
     currentGuestNo++; //first check in guest column = 0
     char confirm;
-    char newspaperChoice;
-
-
 
     // INPUTS (+ validation)
     //first name
+    printf("\nNOTE: Remove any hyphens in your name (e.g Edgar Allan-Poe --> Edgar AllanPoe)");
     do {
-        printf("\n\nPlease enter your first name: "); //input
-        scanf("%s", fNameInput);
-        fflush(stdin);
-        int length = 0;
-        for (int i = 0; fNameInput[i] != '\0'; i++) {
-            length++;
-        }
-        char fName[length];
-        for (int j = 0; j < length + 1; j++) {
-            fName[j] = fNameInput[j];
-        }
-    } while (isNameValid(fNameInput) != 0);
-    FIRSTNAMES[currentGuestNo] = fName;
-    printf("%s %s", FIRSTNAMES[currentGuestNo], fName);
+        do {
+            printf("\n\nPlease enter your first name: "); //input
+            scanf("%s", fName);
+            fflush(stdin);
+            if (isNameValid(fName) != 0) { //error message
+                printf("Name typed isn't valid.");
+            }
+        } while (isNameValid(fName) != 0);
 
-    //last name
-    do {
-        printf("\n\nPlease enter your last name: ");
-        scanf("%s", lName);
+        //last name
+        do {
+            printf("\n\nPlease enter your last name: ");
+            scanf("%s", lName);
+            fflush(stdin);
+            if (isNameValid(lName) != 0) { //error message
+                printf("Name typed isn't valid.");
+            }
+        } while (isNameValid(lName) != 0);
+
+        //confirmation
+        printf("\nYour name is: %s %s, type '/' to proceed: ", fName, lName);
+        scanf("%c", &confirm);
         fflush(stdin);
-    } while (isNameValid(lName) != 0);
-    int ASCIIlastName = atoi(lName); //convert to ascii
-    MAIN[2][currentGuestNo] = ASCIIlastName; //store
+        if (confirm == '/') {
+            printf("Thank you for your booking");
+        } else {
+            printf("Input cancelled, try again");
+        }
+
+    } while (confirm != '/'); //redo if name is mistyped
 
     //age
     do {
@@ -191,9 +272,9 @@ int checkIn(int currentGuestNo) {
         boardTypeChoice[0] = toupper(boardTypeChoice[0]); boardTypeChoice[1] = toupper(boardTypeChoice[1]);
         if (strcmp(boardTypeChoice, "BB") != 0 && strcmp(boardTypeChoice, "HB") != 0 &&
             strcmp(boardTypeChoice, "FB") != 0) {
-            printf("\nInvalid board type, try again.");
+            printf("Invalid board type, try again.");
         } else if (strlen(boardTypeChoice) > 2 || strlen(boardTypeChoice) <= 1) {
-            printf("\nInvalid board type, try again");
+            printf("Invalid board type, try again");
         } else {
             // confirmation
             printf("You are booking for Board Option: %s, type '/' to proceed: ", boardTypeChoice);
@@ -225,64 +306,74 @@ int checkIn(int currentGuestNo) {
             if (lengthOfStay == 1) {
                 printf("You are booking for 1 day, type '/' to proceed: ");
             } else {
-                printf("You are booking for %d days, type '/' to proceed: ", lengthOfStay); }
+                printf("You are booking for %d days, type '/' to proceed: ", lengthOfStay);
+            }
             scanf("%c", &confirm);
             fflush(stdin);
-            if (confirm == '/')
+            if (confirm == '/') {
                 printf("Thank you for your booking, we hope your enjoy your stay.");
-            else
+            } else {
                 printf("Input cancelled, try again");
+            }
         }
     } while (lengthOfStay > 14 || lengthOfStay <= 0 ||
              confirm != '/'); //while lengthofstay is in range and user has confirmed
     MAIN[6][currentGuestNo] = lengthOfStay;
 
-    //giving choice of available rooms
-    do {
-        int roomChoice = 0;
-        char roomConfirm = 0;
-        for (int i = 0; i <= 6; i++) {
-            if (ROOMS[i] == 0) {      //printing what rooms are available
-                printf("\nRoom %d is available.", &i+1); } }
-            printf("Please enter what room you would like to book\nRooms 1 or 2: £100\nRoom 3: £85\nRooms 4 or 5: £75\nRoom 6: £50");
-            scanf("%d", &roomChoice);
-            fflush(stdin);
-            printf("\nYou are booking room %d, please type '/' to confirm:");
-            scanf("%c", &roomConfirm);
-            fflush(stdin);
-            while (ROOMS[roomChoice] == 0 || roomChoice < 1 || roomChoice > 6 || roomConfirm == '/');
-            ROOMS[roomChoice] = 1;
-            if (roomChoice == 1) {
-                printf("\nThank you for your booking.");
-            } else
-                printf("\nInvalid booking, your room is either invalid or already booked.");
+    //ROOM BOOKING
 
-
+    //we don't need roomConfirm, instead use the global confirm variable
+    //available rooms weren't printing, there was an error
+    // moved RoomChoice to top
+    printf("\n\nRATES PER DAY- \nRooms 1 & 2- £100\tRoom 3- £85\tRooms 4 & 5- £75\tRoom 6- £50\n"); //print prices
+    for (int i = 1; i < 7; i++) {
+        if (ROOMS[i] == 0) {      //printing what rooms are available
+            printf("Room %d is available. \t", i);
+        }
     }
+    do {
+        printf("\nEnter room choice: ");
+        scanf("%d", &roomChoice);
+        fflush(stdin);
+
+        if (roomChoice < 1 || roomChoice > 6) {
+            printf("Room Choice is invalid, try again.");
+        } else if (ROOMS[roomChoice] != 0) {
+            printf("Room is not available, try again.");
+        } else {
+            //confirmation
+            printf("You are booking Room %d, type '/' to proceed: ", roomChoice);
+            scanf("%c", &confirm);
+            fflush(stdin);
+            if (confirm == '/') {
+                printf("Thank you for your booking, we hope your enjoy your stay.");
+            } else {
+                printf("Input cancelled, try again");
+            }
+        }
+    } while (roomChoice < 1 || roomChoice > 6 || ROOMS[roomChoice] != 0 || confirm != '/'); //while choice is in range, isn't booked and isn't confirmed
+    //store outside the while loop
+    ROOMS[roomChoice] = 1; //mark room as booked
+    MAIN[8][currentGuestNo] = roomChoice;
 
     //daily newspaper
-
     do {
         //also we do not need a second while loop as the do-while can handle looping
         // char newspaperChoice; //instead of a string we can use characters (easier to deal with)
-        printf("\n\nWould you like to opt for our daily newspaper, this service has a one-off charge of 5.50GBP.");
-        printf("Enter 'Y' for yes and 'N' for no: ");
+        printf("\n\nWould you like to opt for our daily newspaper, this service has a one-off charge of £5.50.");
+        printf("\nEnter 'Y' for yes and 'N' for no: ");
         scanf("%c", &newspaperChoice);
         fflush(stdin);
         newspaperChoice = toupper(newspaperChoice);
         if (newspaperChoice == 'Y') {
             printf("Your newspapers will be delivered daily, thank you for choosing our service");
         } else if (newspaperChoice == 'N') {
-            printf("You will not be charged for daily newspapers, enjoy your stay");
+            printf("You will not be charged for daily newspapers, enjoy your stay\n");
         } else {
             printf("Invalid choice, try again");
         }
     } while (newspaperChoice != 'Y' && newspaperChoice != 'N'); //while newspaper choice isn't valid
     MAIN[7][currentGuestNo] = newspaperChoice == 'Y' ? 1 : 0; //1 = yes, 0 = no
-
-    for (int i = 0; i < 11; i++) {
-        printf("%s", MAIN[i][currentGuestNo]);
-    }
 
     //BOOKING ID
     srand(time(NULL));
@@ -290,16 +381,26 @@ int checkIn(int currentGuestNo) {
     sprintf(BookingID, "%s%d", lName, BookingIDRandom);
     printf("\nYour Booking ID is: %s", BookingID);
 
-    //CALCULATION (boardRate and roomRate)
+    //check for quit
+    printf("\n(type '!' to quit this booking and re-book or type any to continue.) : ");
+    scanf("%c", &confirm); //using confirm to check for quitting
+    fflush(stdin);
+    if (confirm == '!') {
+        hasQuit = true;
+        mainMenu(currentGuestNo);
+    } else {
+        mainMenu(currentGuestNo);
+    }
+    // return to main menu, if quit, set hasQuit to true
 
     return 0;
 }
 
 
-int bookDinner() {
+int bookDinner(int currentGuestNo) {
     //book dinner
 }
-int checkOut() {
+int checkOut(int currentGuestNo) {
     //check out
 }
 
