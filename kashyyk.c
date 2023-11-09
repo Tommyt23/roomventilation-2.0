@@ -298,6 +298,25 @@ int checkIn(int currentGuestNo) {
 
 int bookDinner() {
     //book dinner
+    do {
+        int bookdinnerreservation= 0; //stored as int  to progress
+        char bookdinnerConfirm = 0;
+        while (bookdinnerConfirm = 0) {
+            printf("\nThe Kashyyk hotel offer many dinner options, would you like to make a reservation?\nPlease enter 'Y' or 'N':");
+            scanf("%c", &bookdinnerConfirm);
+            bookdinnerConfirm = toupper(bookdinnerConfirm);
+            if (bookdinnerConfirm == 'Y') {
+                bookdinnerreservation = 1;
+            } else if (bookdinnerConfirm == 'N') {
+                printf("Please enjoy your stay, dinner will always be available if you change your mind.");
+                bookdinnerreservation = 2;
+            } else {
+                printf("Please enter 'Y' or 'N'");
+                bookdinnerConfirm = 0;
+            }
+        }
+        printf("");
+    }
 }
 int checkOut() {
     //check out
