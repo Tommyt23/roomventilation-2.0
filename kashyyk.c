@@ -400,11 +400,11 @@ int checkIn(int currentGuestNo) {
 int bookDinner(int currentGuestNo) {
     //book dinner
     do {
-        int bookdinnerreservation= 0; //stored as int  to progress
+        int bookdinnerreservation = 0; //stored as int  to progress
         char bookdinnerConfirm = 0;
         while (bookdinnerConfirm = 0) {
             printf("\nThe Kashyyk hotel offer many dinner options, would you like to make a reservation?\nPlease enter 'Y' or 'N':");
-            scanf("%c", &bookdinnerConfirm);
+            scanf("%c", &bookdinnerConfirm); //Prefer using Y and N to / as more professional
             bookdinnerConfirm = toupper(bookdinnerConfirm);
             if (bookdinnerConfirm == 'Y') {
                 bookdinnerreservation = 1;
@@ -416,7 +416,9 @@ int bookDinner(int currentGuestNo) {
                 bookdinnerConfirm = 0;
             }
         }
-        printf("");
+        while (bookdinnerConfirm = 1) {
+            printf("");
+        }
     }
 }
 int checkOut(int currentGuestNo) {
