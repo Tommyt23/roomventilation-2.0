@@ -2,10 +2,7 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "roomventilation_2_0.exe"
-		},
-		{
-			"path" : "roomventilation_2_0.pdb"
+			"path" : "roomventilation_2_0"
 		}
 	],
 	"backtrace" : 1,
@@ -38,7 +35,7 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : "-g -std=gnu11 -fdiagnostics-color=always"
+					"fragment" : "-g -std=gnu11 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.0.sdk -fcolor-diagnostics"
 				}
 			],
 			"language" : "C",
@@ -68,16 +65,12 @@
 			{
 				"fragment" : "",
 				"role" : "flags"
-			},
-			{
-				"fragment" : "-lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32",
-				"role" : "libraries"
 			}
 		],
 		"language" : "C"
 	},
 	"name" : "roomventilation_2_0",
-	"nameOnDisk" : "roomventilation_2_0.exe",
+	"nameOnDisk" : "roomventilation_2_0",
 	"paths" : 
 	{
 		"build" : ".",
