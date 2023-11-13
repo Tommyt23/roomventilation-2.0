@@ -1,9 +1,7 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/roomventilation_2_0.dir/kashyyk.c.obj"
-  "CMakeFiles/roomventilation_2_0.dir/kashyyk.c.obj.d"
-  "libroomventilation_2_0.dll.a"
-  "roomventilation_2_0.exe"
-  "roomventilation_2_0.exe.manifest"
+  "CMakeFiles/roomventilation_2_0.dir/kashyyk.c.o"
+  "CMakeFiles/roomventilation_2_0.dir/kashyyk.c.o.d"
+  "roomventilation_2_0"
   "roomventilation_2_0.pdb"
 )
 

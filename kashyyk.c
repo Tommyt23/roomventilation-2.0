@@ -45,6 +45,8 @@ int main() {
     mainMenuValid = true;
 
     mainMenu(currentGuestNo);
+
+    return 0;
 }
 
 
@@ -92,7 +94,12 @@ int mainMenu(int currentGuestNo) {
                     printf("You haven't checked in yet, please Check-In and enter option 1.");
                     mainMenuValid = false;
                 } else {
-                    bookDinner(currentGuestNo); //if player hasn't quit (has checked in) go ahead
+                    if (MAIN[5][currentGuestNo] == 3) {
+                        printf("You have only payed for Bed & Breakfast, which does not include our dinner services.");
+                        mainMenuValid = false;
+                    } else {
+                        bookDinner(currentGuestNo); //if player hasn't quit (has checked in) go ahead
+                    }
                 }
             } else {
                 printf("You haven't checked in yet, please Check-In and enter option 1.");
@@ -169,6 +176,7 @@ int checkIn(int currentGuestNo) {
         printf("\nYour name is: %s %s, type '/' to proceed: ", fName, lName);
         scanf("%c", &confirm);
         fflush(stdin);
+
         if (confirm == '/') {
             printf("Thank you for your booking");
         } else {
@@ -403,7 +411,7 @@ int checkIn(int currentGuestNo) {
     srand(time(NULL));
     int BookingIDRandom = rand() % 100;
     sprintf(BookingID, "%s%d", lName, BookingIDRandom);
-    printf("\nYour Booking ID is: %s", BookingID);
+    printf("\n\nYour Booking ID is: %s", BookingID);
 
     //check for quit
     printf("\n(type '!' to quit this booking and re-book or type any to continue.) : ");
@@ -435,8 +443,8 @@ int bookDinner(int currentGuestNo) {
         if (tableSum == 6) {
             printf("\nAll tables are currently booked");
             hasQuit = true;
-        }
-        while (tableSum != 6) {
+        } else {
+            tableInvalid = 0;
             if (TABLES[0] == 1) {
                 printf("\n1. Endor 19:00 is booked.");
             } else {
@@ -478,7 +486,7 @@ int bookDinner(int currentGuestNo) {
                 tableInvalid = 1;
             }
             else {
-                printf("You are booking for table %d, please type '/' to confirm:", &tableChoice);
+                printf("You are booking for table %d, please type '/' to confirm:", tableChoice);
                 scanf("%c", &confirm);
                 fflush(stdin);
             }
@@ -488,6 +496,8 @@ int bookDinner(int currentGuestNo) {
     MAIN[9][currentGuestNo] = tableChoice - 1;
     TABLES[tableChoice - 1] = 1;
 
+    mainMenu(currentGuestNo);
+
     return 0;
 }
 
@@ -495,45 +505,52 @@ int checkOut(int currentGuestNo) {
     //CHECK OUT
 
     //room rate per day
-    int roomPrice = MAIN[8][currentGuestNo] == 1 || MAIN[8][currentGuestNo] == 2 ? 100 : MAIN[8][currentGuestNo] == 3 ? 85
+    float roomPrice = MAIN[8][currentGuestNo] == 1 || MAIN[8][currentGuestNo] == 2 ? 100 : MAIN[8][currentGuestNo] == 3 ? 85
             : MAIN[8][currentGuestNo] == 4 || MAIN[8][currentGuestNo] == 5 ? 75 : 50;
     float roomRate = roomPrice * MAIN[6][currentGuestNo];
+    roomRate = roundf(roomRate * 100) / 100;
 
     //senior discount (10% off room rate)
     float seniorDiscount = 0;
     if (MAIN[11][currentGuestNo] > 65) {
         seniorDiscount = roomRate * 0.1;
     }
+    seniorDiscount = roundf(seniorDiscount * 100) / 100;
 
     //board rate per day (adults)
     float boardPrice = MAIN[5][currentGuestNo] == 3 ? 5 : MAIN[5][currentGuestNo] == 2 ? 15 : 20;
     float adultBoardRate = boardPrice * MAIN[3][currentGuestNo];
+    adultBoardRate = roundf(adultBoardRate * 100) / 100;
 
     //board rate per day (kids)
     float childBoardRateRaw = boardPrice * MAIN[4][currentGuestNo];
     float childBoardRate = boardPrice * MAIN[4][currentGuestNo] * 0.5;
+    childBoardRate = roundf(childBoardRate * 100) / 100;
     float childDiscount = childBoardRateRaw - childBoardRate;
+    childDiscount = roundf(childDiscount * 100) / 100;
 
     float totalBoardRateRaw = adultBoardRate + childBoardRateRaw;
 
     //daily newspaper
     float newspaperBill = 0;
     if (MAIN[7][currentGuestNo] == 1) {
-        newspaperBill = 5.5;
+        newspaperBill = 5.50;
     }
+    newspaperBill = roundf(newspaperBill * 100) / 100;
 
     //overall
     float totalBill = (roomRate - seniorDiscount) + adultBoardRate + childBoardRate + newspaperBill;
+    totalBill = roundf(totalBill * 100) / 100;
 
     //print
     printf("\nFINAL BILL- \n");
-    printf("\t-ROOM RATE- \n\t +£%f", roomRate);
+    printf("\t-ROOM RATE- \n\t +£%f\n", roomRate);
     if (seniorDiscount > 0) {
-        printf("\t-SENIOR DISCOUNT -£%f", seniorDiscount);
+        printf("\t-SENIOR DISCOUNT -£%f\n", seniorDiscount);
     }
-    printf("\t-BOARD RATE- \n\t +£%f", totalBoardRateRaw);
+    printf("\t-BOARD RATE- \n\t +£%f\n", totalBoardRateRaw);
     if (childBoardRate > 0) {
-        printf("\t-CHILD DISCOUNT -£%f", childDiscount);
+        printf("\t-CHILD DISCOUNT -£%f\n", childDiscount);
     }
     if (newspaperBill > 0) {
         printf("\t-OTHER- \n\t-NEWSPAPER +£%f", newspaperBill);
@@ -545,7 +562,7 @@ int checkOut(int currentGuestNo) {
     int room = MAIN[8][currentGuestNo];
     ROOMS[room] = 0;
     //free table if booked table
-    if (MAIN[10][currentGuestNo] = 1) {
+    if (MAIN[10][currentGuestNo] == 1) {
         int tableChoice = MAIN[9][currentGuestNo];
         TABLES[tableChoice] = 0;
     }
