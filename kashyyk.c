@@ -398,7 +398,47 @@ int checkIn(int currentGuestNo) {
 int bookDinner(int currentGuestNo) {
     //book dinner
     printf("\n\nThe Kashyyk hotel has 3 dining tables: Endor, Naboo and Tatooine.\nEach table has two available bookings, at 7pm and 9pm.\nHere are the available times: ");
+    //{0, 0, 0, 0, 0, 0}; //another normal array for table availability
+    //                   // [0] = Endor19:00, [1] = Endor21:00, [2] = Naboo19:00, [3] = Naboo21:00
+    //                   // [4] = Tattooine19:00, [5] = Tattooine21:00
+    //                   // 0 = available, 1 = booked         all tables start available
     //Show tables that aren't booked instead, do loads of if elses and go through array to check if table is booked or not
+    if (TABLES[6] == {1, 1, 1, 1, 1, 1}) {
+        printf("All tables are currently booked");
+    }
+    while (TABLES[6] != {1, 1, 1, 1, 1, 1}) {
+        if (TABLES[0] == 1) {
+            printf("\nEndor 19:00 is booked.");
+        } else {
+            printf("\nEndor 19:00 is available for booking.");
+        }
+        if (TABLES[1] == 1) {
+            printf("\nEndor 21:00 is booked.");
+        } else {
+            printf("\nEndor 21:00 is available for booking.");
+        }
+        if (TABLES[2] == 1) {
+            printf("\nNaboo 19:00 is booked.");
+        } else {
+            printf("\nNaboo 19:00 is available for booking.");
+        }
+        if (TABLES[3] == 1) {
+            printf("\nNaboo 21:00 is booked.");
+        } else {
+            printf("\nNaboo 21:00 is available for booking.");
+        }
+        if (TABLES[4] == 1) {
+            printf("\nTattooine 19:00 is booked.");
+        } else {
+            printf("\nTattooine 19:00 is available for booking.");
+        }
+        if (TABLES[5] == 1) {
+            printf("\nTattooine 21:00 is booked.");
+        } else {
+            printf("\nTattooine 21:00 is available for booking.");
+        }
+    }
+    }
 do {
 
 }
