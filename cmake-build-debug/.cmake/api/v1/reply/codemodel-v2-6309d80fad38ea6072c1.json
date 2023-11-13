@@ -49,8 +49,8 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "C:/Users/thoma/OneDrive/Documents/GitHub/roomventilation-2.0/cmake-build-debug",
-		"source" : "C:/Users/thoma/OneDrive/Documents/GitHub/roomventilation-2.0"
+		"build" : "C:/Users/thoma/Documents/GitHub/roomventilation-2.0/cmake-build-debug",
+		"source" : "C:/Users/thoma/Documents/GitHub/roomventilation-2.0"
 	},
 	"version" : 
 	{

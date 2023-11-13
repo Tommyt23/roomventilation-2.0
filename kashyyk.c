@@ -397,7 +397,7 @@ int checkIn(int currentGuestNo) {
 }
 int bookDinner(int currentGuestNo) {
     //book dinner
-    printf("\n\nThe Kashyyk hotel has 3 dining tables: Endor, Naboo and Tatooine.\nEach table has two available bookings, at 7pm and 9pm.\nHere are the available times: ")
+    printf("\n\nThe Kashyyk hotel has 3 dining tables: Endor, Naboo and Tatooine.\nEach table has two available bookings, at 7pm and 9pm.\nHere are the available times: ");
     //Show tables that aren't booked instead, do loads of if elses and go through array to check if table is booked or not
 do {
 

@@ -43,19 +43,19 @@ cmake_force:
 SHELL = cmd.exe
 
 # The CMake executable.
-CMAKE_COMMAND = "C:\Program Files\JetBrains\CLion 2023.2.2\bin\cmake\win\x64\bin\cmake.exe"
+CMAKE_COMMAND = "C:\Program Files\JetBrains\CLion 2023.2.1\bin\cmake\win\x64\bin\cmake.exe"
 
 # The command to remove a file.
-RM = "C:\Program Files\JetBrains\CLion 2023.2.2\bin\cmake\win\x64\bin\cmake.exe" -E rm -f
+RM = "C:\Program Files\JetBrains\CLion 2023.2.1\bin\cmake\win\x64\bin\cmake.exe" -E rm -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = C:\Users\thoma\OneDrive\Documents\GitHub\roomventilation-2.0
+CMAKE_SOURCE_DIR = C:\Users\thoma\Documents\GitHub\roomventilation-2.0
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = C:\Users\thoma\OneDrive\Documents\GitHub\roomventilation-2.0\cmake-build-debug
+CMAKE_BINARY_DIR = C:\Users\thoma\Documents\GitHub\roomventilation-2.0\cmake-build-debug
 
 # Include any dependencies generated for this target.
 include CMakeFiles/roomventilation_2_0.dir/depend.make
@@ -69,18 +69,18 @@ include CMakeFiles/roomventilation_2_0.dir/progress.make
 include CMakeFiles/roomventilation_2_0.dir/flags.make
 
 CMakeFiles/roomventilation_2_0.dir/kashyyk.c.obj: CMakeFiles/roomventilation_2_0.dir/flags.make
-CMakeFiles/roomventilation_2_0.dir/kashyyk.c.obj: C:/Users/thoma/OneDrive/Documents/GitHub/roomventilation-2.0/kashyyk.c
+CMakeFiles/roomventilation_2_0.dir/kashyyk.c.obj: C:/Users/thoma/Documents/GitHub/roomventilation-2.0/kashyyk.c
 CMakeFiles/roomventilation_2_0.dir/kashyyk.c.obj: CMakeFiles/roomventilation_2_0.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\thoma\OneDrive\Documents\GitHub\roomventilation-2.0\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/roomventilation_2_0.dir/kashyyk.c.obj"
-	C:\PROGRA~1\JETBRA~1\CLION2~1.2\bin\mingw\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/roomventilation_2_0.dir/kashyyk.c.obj -MF CMakeFiles\roomventilation_2_0.dir\kashyyk.c.obj.d -o CMakeFiles\roomventilation_2_0.dir\kashyyk.c.obj -c C:\Users\thoma\OneDrive\Documents\GitHub\roomventilation-2.0\kashyyk.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\thoma\Documents\GitHub\roomventilation-2.0\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/roomventilation_2_0.dir/kashyyk.c.obj"
+	C:\PROGRA~1\JETBRA~1\CLION2~1.1\bin\mingw\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/roomventilation_2_0.dir/kashyyk.c.obj -MF CMakeFiles\roomventilation_2_0.dir\kashyyk.c.obj.d -o CMakeFiles\roomventilation_2_0.dir\kashyyk.c.obj -c C:\Users\thoma\Documents\GitHub\roomventilation-2.0\kashyyk.c
 
 CMakeFiles/roomventilation_2_0.dir/kashyyk.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/roomventilation_2_0.dir/kashyyk.c.i"
-	C:\PROGRA~1\JETBRA~1\CLION2~1.2\bin\mingw\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\thoma\OneDrive\Documents\GitHub\roomventilation-2.0\kashyyk.c > CMakeFiles\roomventilation_2_0.dir\kashyyk.c.i
+	C:\PROGRA~1\JETBRA~1\CLION2~1.1\bin\mingw\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\thoma\Documents\GitHub\roomventilation-2.0\kashyyk.c > CMakeFiles\roomventilation_2_0.dir\kashyyk.c.i
 
 CMakeFiles/roomventilation_2_0.dir/kashyyk.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/roomventilation_2_0.dir/kashyyk.c.s"
-	C:\PROGRA~1\JETBRA~1\CLION2~1.2\bin\mingw\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\thoma\OneDrive\Documents\GitHub\roomventilation-2.0\kashyyk.c -o CMakeFiles\roomventilation_2_0.dir\kashyyk.c.s
+	C:\PROGRA~1\JETBRA~1\CLION2~1.1\bin\mingw\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\thoma\Documents\GitHub\roomventilation-2.0\kashyyk.c -o CMakeFiles\roomventilation_2_0.dir\kashyyk.c.s
 
 # Object files for target roomventilation_2_0
 roomventilation_2_0_OBJECTS = \
@@ -94,7 +94,7 @@ roomventilation_2_0.exe: CMakeFiles/roomventilation_2_0.dir/build.make
 roomventilation_2_0.exe: CMakeFiles/roomventilation_2_0.dir/linkLibs.rsp
 roomventilation_2_0.exe: CMakeFiles/roomventilation_2_0.dir/objects1.rsp
 roomventilation_2_0.exe: CMakeFiles/roomventilation_2_0.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=C:\Users\thoma\OneDrive\Documents\GitHub\roomventilation-2.0\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking C executable roomventilation_2_0.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=C:\Users\thoma\Documents\GitHub\roomventilation-2.0\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking C executable roomventilation_2_0.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\roomventilation_2_0.dir\link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -106,6 +106,6 @@ CMakeFiles/roomventilation_2_0.dir/clean:
 .PHONY : CMakeFiles/roomventilation_2_0.dir/clean
 
 CMakeFiles/roomventilation_2_0.dir/depend:
-	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" C:\Users\thoma\OneDrive\Documents\GitHub\roomventilation-2.0 C:\Users\thoma\OneDrive\Documents\GitHub\roomventilation-2.0 C:\Users\thoma\OneDrive\Documents\GitHub\roomventilation-2.0\cmake-build-debug C:\Users\thoma\OneDrive\Documents\GitHub\roomventilation-2.0\cmake-build-debug C:\Users\thoma\OneDrive\Documents\GitHub\roomventilation-2.0\cmake-build-debug\CMakeFiles\roomventilation_2_0.dir\DependInfo.cmake --color=$(COLOR)
+	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" C:\Users\thoma\Documents\GitHub\roomventilation-2.0 C:\Users\thoma\Documents\GitHub\roomventilation-2.0 C:\Users\thoma\Documents\GitHub\roomventilation-2.0\cmake-build-debug C:\Users\thoma\Documents\GitHub\roomventilation-2.0\cmake-build-debug C:\Users\thoma\Documents\GitHub\roomventilation-2.0\cmake-build-debug\CMakeFiles\roomventilation_2_0.dir\DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/roomventilation_2_0.dir/depend
 
