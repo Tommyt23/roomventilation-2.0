@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <stdbool.h>
+#include <windows.h>
 
 
 
@@ -37,14 +38,33 @@ int TABLES[6] = {0, 0, 0, 0, 0, 0}; //another normal array for table availabilit
                    // [4] = Tattooine19:00, [5] = Tattooine21:00
                    // 0 = available, 1 = booked         all tables start available
 
+
+// New thread that will enable the program to play music while the main thread is used in order to run the main program
+DWORD WINAPI PlaySoundThread(LPVOID lpParam) {
+    // Use SND_FILENAME to indicate that the first parameter is a file name
+    // Use SND_ASYNC to play the sound asynchronously
+    PlaySound(TEXT(/* --- PUT MUSIC FILE LOCATION BETWEEN THE STRING MARKERS --- */""), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
+
+    return 0;
+}
+
 bool hasQuit = false;
 // main program called when code is ran
 int main() {
+    // calls the soundthread at the beginning of the program in order to let it run at the same time as the rest of the program
+    HANDLE soundThread = CreateThread(NULL, 0, PlaySoundThread, NULL, 0, NULL);
+
     int currentGuestNo = -1; //keeps track of what column we read and write from in MAIN array
     hasQuit = false;
     mainMenuValid = true;
 
     mainMenu(currentGuestNo);
+
+    // Optionally, wait for the sound thread to finish
+    WaitForSingleObject(soundThread, INFINITE);
+
+    // Close the handle to the thread
+    CloseHandle(soundThread);
 }
 
 
