@@ -76,9 +76,13 @@ int mainMenu(int currentGuestNo) {
         scanf("%d", &mainMenuChoice);
         fflush(stdin);
 
-        if (mainMenuChoice == 1) {
+        if (mainMenuChoice == 1) { //CHECK IN
             if (hasQuit) {
-                checkIn(currentGuestNo); // if player has quit, check-in with new guest number
+                if (currentGuestNo == 5) {
+                    printf("The Kashyyyk Hotel is fully booked, please visit another time.");
+                } else {
+                    checkIn(currentGuestNo); //if player has quit, check in with new guest number
+                }
             } else {
                 if (currentGuestNo == -1) {
                     checkIn(currentGuestNo);   //allow check-in if program first started
@@ -88,7 +92,7 @@ int mainMenu(int currentGuestNo) {
                 }
             }
         }
-        else if (mainMenuChoice == 2) {
+        else if (mainMenuChoice == 2) //BOOK DINNER
             if (!hasQuit) {
                 if (currentGuestNo == -1) { //if program has just started
                     printf("You haven't checked in yet, please Check-In and enter option 1.");
@@ -96,6 +100,9 @@ int mainMenu(int currentGuestNo) {
                 } else {
                     if (MAIN[5][currentGuestNo] == 3) {
                         printf("You have only payed for Bed & Breakfast, which does not include our dinner services.");
+                        mainMenuValid = false;
+                    } else if (MAIN[10][currentGuestNo] == 1){
+                        printf("You have already booked a dinner table, try again");
                         mainMenuValid = false;
                     } else {
                         bookDinner(currentGuestNo); //if player hasn't quit (has checked in) go ahead
@@ -105,8 +112,7 @@ int mainMenu(int currentGuestNo) {
                 printf("You haven't checked in yet, please Check-In and enter option 1.");
                 mainMenuValid = false;
             }
-        }
-        else if (mainMenuChoice == 3) {
+        else if (mainMenuChoice == 3) { //CHECK OUT
             if (!hasQuit) {
                 if (currentGuestNo == -1) { //if program has just started
                     printf("You haven't checked in yet, please Check-In and enter option 1.");
@@ -148,6 +154,7 @@ int checkIn(int currentGuestNo) {
     //variables
     currentGuestNo++; //first check in guest column = 0
     char confirm;
+    hasQuit = false;
 
     // INPUTS (+ validation)
     //first name
@@ -164,7 +171,7 @@ int checkIn(int currentGuestNo) {
 
         //last name
         do {
-            printf("\n\nPlease enter your last name: ");
+            printf("\nPlease enter your last name: ");
             scanf("%s", lName);
             fflush(stdin);
             if (isNameValid(lName) != 0) { //error message
@@ -189,7 +196,7 @@ int checkIn(int currentGuestNo) {
     do {
         struct tm dob1 = {0};
         do {
-            printf("\nEnter the year you were born:");
+            printf("\n\nPlease enter your year of birth (XXXX):");
             scanf("%d", &dob1.tm_year);
             fflush(stdin);
             if (dob1.tm_year <= 0 || dob1.tm_year >= 2023) {
@@ -197,7 +204,7 @@ int checkIn(int currentGuestNo) {
             }
         } while (dob1.tm_year <= 0 || dob1.tm_year >= 2023);
         do {
-            printf("\nEnter the month you were born:");
+            printf("\nPlease enter your birth month (01-12): ");
             scanf("%d", &dob1.tm_mon);
             fflush(stdin);
             if (dob1.tm_mon > 12 || dob1.tm_mon <= 0) {
@@ -205,7 +212,7 @@ int checkIn(int currentGuestNo) {
             }
         } while(dob1.tm_mon > 12 || dob1.tm_mon <= 0);
         do {
-            printf("\nEnter the day you were born:");
+            printf("\nPlease enter the day you were born:");
             scanf("%d", &dob1.tm_mday);
             fflush(stdin);
             if (dob1.tm_mday <= 0 || dob1.tm_mday > 31) {
@@ -414,7 +421,7 @@ int checkIn(int currentGuestNo) {
     printf("\n\nYour Booking ID is: %s", BookingID);
 
     //check for quit
-    printf("\n(type '!' to quit this booking and re-book or type any to continue.) : ");
+    printf("\n(type '!' to quit this booking and re-book or press enter to continue.) : ");
     scanf("%c", &confirm); //using confirm to check for quitting
     fflush(stdin);
     if (confirm == '!') {
@@ -496,7 +503,17 @@ int bookDinner(int currentGuestNo) {
     MAIN[9][currentGuestNo] = tableChoice - 1;
     TABLES[tableChoice - 1] = 1;
 
-    mainMenu(currentGuestNo);
+    //check for quit
+    printf("\n(type '!' to quit this booking and re-book or press enter to continue.) : ");
+    scanf("%c", &confirm); //using confirm to check for quitting
+    fflush(stdin);
+    if (confirm == '!') {
+        hasQuit = true;
+        mainMenu(currentGuestNo);
+    } else {
+        mainMenu(currentGuestNo);
+    }
+    // return to main menu, if quit, set hasQuit to true
 
     return 0;
 }
@@ -543,19 +560,21 @@ int checkOut(int currentGuestNo) {
     totalBill = roundf(totalBill * 100) / 100;
 
     //print
+    printf("Here is your total -"); printf("\033[0;31m"); printf("%s %s", fName, lName); printf("\033[0m");
+    printf("- (%s)", BookingID);
     printf("\nFINAL BILL- \n");
-    printf("\t-ROOM RATE- \n\t +£%f\n", roomRate);
+    printf("\t-ROOM RATE- \n\t +£%.2f\n", roomRate);
     if (seniorDiscount > 0) {
-        printf("\t-SENIOR DISCOUNT -£%f\n", seniorDiscount);
+        printf("\t-SENIOR DISCOUNT -£%.2f\n", seniorDiscount);
     }
-    printf("\t-BOARD RATE- \n\t +£%f\n", totalBoardRateRaw);
+    printf("\t-BOARD RATE- \n\t +£%.2f\n", totalBoardRateRaw);
     if (childBoardRate > 0) {
-        printf("\t-CHILD DISCOUNT -£%f\n", childDiscount);
+        printf("\t-CHILD DISCOUNT -£%.2f\n", childDiscount);
     }
     if (newspaperBill > 0) {
-        printf("\t-OTHER- \n\t-NEWSPAPER +£%f", newspaperBill);
+        printf("\t-OTHER- \n\t-NEWSPAPER +£%.2f", newspaperBill);
     }
-    printf("\nTOTAL- £%f", totalBill);
+    printf("\nTOTAL- £%.2f", totalBill);
 
 
     //free room
@@ -573,7 +592,18 @@ int checkOut(int currentGuestNo) {
     //clear currentguestno
     currentGuestNo--;
 
-    return 0;
+    //new guest
+    char confirm;
+    printf("\n(type '!' to re-book or press enter to exit.) : ");
+    scanf("%c", &confirm); //using confirm to check for quitting
+    fflush(stdin);
+    if (confirm == '!') {
+        hasQuit = true;
+        mainMenu(currentGuestNo);
+    } else {
+        return 0;
+    }
+    // return to main menu, if quit, set hasQuit to true
 }
 
 int calculate_age(struct tm dob) {
